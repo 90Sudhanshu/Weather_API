@@ -5,10 +5,10 @@
     <title>Sample page</title>
 </head>
 <body>
-<h1>sample html page.</h1>
-<p>this is the sample html page to practice the flask</p>
-<p>this is the sample html page to practice the flask</p>
-<img src="{{url_for('static', filename='image.jpeg')}}" width ="500px" alt="">
+{%for post in posts%}
+<h1>{{post.blog}}</h1>
 
+<p> by: {{post.name}} on {{post.date}}</p>
+{%endfor%}
 </body>
 </html>

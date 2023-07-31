@@ -2,11 +2,24 @@ from flask import Flask, render_template
 
 app = Flask("Web")
 
+posts = [
+    {
+        'name': 'Ram',
+        'blog': 'Blog 1',
+        'date': '25-July-2023'
+    },
+    {
+        'name': 'Krishna',
+        'blog': 'Blog 2',
+        'date': '25-July-2023'
+
+    }
+]
+
 
 @app.route('/home')
 def home():
-    # return render_template("/index.html")
-    return render_template("index.html")
+    return render_template("index.html", posts=posts)
 
 
 @app.route('/intro')
