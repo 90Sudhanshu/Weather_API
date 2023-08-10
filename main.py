@@ -1,40 +1,27 @@
 from flask import Flask, render_template
+import pandas as pd
+import numpy as np
 
-app = Flask("Web")
-
-posts = [
-    {
-        'name': 'Ram',
-        'blog': 'Blog 1',
-        'date': '25-July-2023'
-    },
-    {
-        'name': 'Krishna',
-        'blog': 'Blog 2',
-        'date': '25-July-2023'
-
-    }
-]
+app = Flask(__name__)
 
 
-@app.route('/home')
+@app.route('/')
 def home():
-    return render_template("index.html", posts=posts)
+    return render_template("home.html")
 
 
-@app.route('/intro')
-def intro():
-    return render_template("intro.html")
 
+@app.route('/v1/<station>/<date>')
+def about(station, date):
+    filename = 'data-small\TG_STAID' + str(station).zfill(6) + '.txt'
+    df = pd.read_csv(filename, skiprows=20, parse_dates=['    DATE'])
+    temp = df.loc[df['    DATE'] == date]['   TG'].squeeze()/10
 
-@app.route('/cartoons')
-def cartoons():
-    return render_template("cartoons.html")
+    return {
+        "Station": station,
+        "date": date,
+        "temprature": temp
+    }
 
-
-@app.route('/AI')
-def ai():
-    return render_template("AI.html")
-
-
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
